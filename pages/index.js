@@ -34,7 +34,7 @@ export default function Home() {
     populationSize,
     setPopulationSize,
     generationCount,
-    setGenerationCount,
+    correctValsCount,
   } = useAppContext();
 
   const handleGenerate = (
@@ -126,8 +126,11 @@ export default function Home() {
           <Line options={options} data={data} />
         </div>
         <div className="border">
-          {genMembers.map((members, i) => (
-            <div key={i}>{members}</div>
+          {genMembers.map((item, i) => (
+            <>
+              <div>{[item]}</div>
+              <div>{[correctValsCount[i]]}</div>
+            </>
           ))}
         </div>
       </div>

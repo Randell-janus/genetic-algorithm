@@ -13,6 +13,8 @@ export const AppContextProvider = ({ children }) => {
   const [populationSize, setPopulationSize] = useState(30);
   const [generationCount, setGenerationCount] = useState(100);
 
+  const [correctValsCount, setCorrectValsCount] = useState([]);
+
   const random = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -87,6 +89,7 @@ export const AppContextProvider = ({ children }) => {
     evolve(generations) {
       const resultsList = [];
       const otherGensList = [];
+      const correctValueList = [];
 
       for (let i = 0; i < generations; i += 1) {
         const otherGens = this.members.map((m) => m.keys.join(""));
@@ -94,26 +97,29 @@ export const AppContextProvider = ({ children }) => {
 
         resultsList.push(otherGensCount.length);
         otherGensList.push(otherGens);
+        correctValueList.push(otherGensCount.length);
 
         setGenMembers(otherGensList);
+        setCorrectValsCount(correctValueList);
 
-        console.log(otherGens);
-        console.log(
-          `${otherGensCount ? otherGensCount.length : 0} member(s) typed "${
-            this.target
-          }"`
-        );
+        // console.log(otherGens);
+        // console.log(
+        //   `${otherGensCount ? otherGensCount.length : 0} member(s) typed "${
+        //     this.target
+        //   }"`
+        // );
 
         const pool = this._selectMembersForMating();
         this._reproduce(pool);
       }
+
       setChartDataY(resultsList);
       setChartDataX(resultsList.map((results, i) => i + 1));
 
       console.log(resultsList);
       // console.log(`this is last item: ${resultsList[resultsList.length - 1]}`);
       console.log(resultsList.length);
-      console.log(resultsList.map((results, i) => i + 1));
+      // console.log(resultsList.map((results, i) => i + 1));
     }
 
     _selectMembersForMating() {
@@ -156,10 +162,6 @@ export const AppContextProvider = ({ children }) => {
       legend: {
         position: "top",
       },
-      // title: {
-      //   display: true,
-      //   text: "Fitness Function Chart",
-      // },
     },
   };
   const labels = chartDataX;
@@ -188,6 +190,7 @@ export const AppContextProvider = ({ children }) => {
     generationCount,
     setGenerationCount,
     chartDataY,
+    correctValsCount,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
