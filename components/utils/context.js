@@ -6,17 +6,22 @@ export const useAppContext = () => useContext(AppContext);
 
 export const AppContextProvider = ({ children }) => {
   const [genMembers, setGenMembers] = useState([]);
+  const [chartDataY, setChartDataY] = useState([]);
+  const [chartDataX, setChartDataX] = useState([]);
+
+  const [targetString, setTargetString] = useState("xy");
+  const [populationSize, setPopulationSize] = useState(30);
+  const [generationCount, setGenerationCount] = useState(100);
 
   const random = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
 
-    // The maximum is exclusive and the minimum is inclusive
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
   const generateLetter = () => {
-    const code = random(97, 123); // ASCII char codes
+    const code = random(97, 123);
     return String.fromCharCode(code);
   };
 
@@ -60,8 +65,6 @@ export const AppContextProvider = ({ children }) => {
 
     mutate(mutationRate) {
       for (let i = 0; i < this.keys.length; i += 1) {
-        // If below predefined mutation rate,
-        // generate a new random letter on this position.
         if (Math.random() < mutationRate) {
           this.keys[i] = generateLetter();
         }
@@ -104,16 +107,19 @@ export const AppContextProvider = ({ children }) => {
         const pool = this._selectMembersForMating();
         this._reproduce(pool);
       }
+      setChartDataY(resultsList);
+      setChartDataX(resultsList.map((results, i) => i + 1));
+
       console.log(resultsList);
+      // console.log(`this is last item: ${resultsList[resultsList.length - 1]}`);
+      console.log(resultsList.length);
+      console.log(resultsList.map((results, i) => i + 1));
     }
 
     _selectMembersForMating() {
       const matingPool = [];
 
       this.members.forEach((m) => {
-        // The fitter he/she is, the more often will be present in the mating pool
-        // i.e. increasing the chances of selection
-        // If fitness == 0, add just one member
         const f = Math.floor(m.fitness() * 100) || 1;
 
         for (let i = 0; i < f; i += 1) {
@@ -126,16 +132,11 @@ export const AppContextProvider = ({ children }) => {
 
     _reproduce(matingPool) {
       for (let i = 0; i < this.members.length; i += 1) {
-        // Pick 2 random members/parent from the mating pool
         const parentA = matingPool[random(0, matingPool.length)];
         const parentB = matingPool[random(0, matingPool.length)];
-
-        // Perform crossover
         const child = parentA.crossover(parentB);
 
-        // Perform mutation
         child.mutate(this.mutationRate);
-
         this.members[i] = child;
       }
     }
@@ -155,42 +156,39 @@ export const AppContextProvider = ({ children }) => {
       legend: {
         position: "top",
       },
-      title: {
-        display: true,
-        text: "Fitness Function Chart",
-      },
+      // title: {
+      //   display: true,
+      //   text: "Fitness Function Chart",
+      // },
     },
   };
-
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+  const labels = chartDataX;
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
-        data: [1, 2, 3, 40],
+        label: "Fitness Value",
+        data: chartDataY,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Dataset 2",
-        data: [5, 6, 7, 8],
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],
   };
 
-  const value = { Population, options, data, genMembers, setGenMembers };
+  const value = {
+    Population,
+    options,
+    data,
+    genMembers,
+    targetString,
+    setTargetString,
+    populationSize,
+    setPopulationSize,
+    generationCount,
+    setGenerationCount,
+    chartDataY,
+  };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

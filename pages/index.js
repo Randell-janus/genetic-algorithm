@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,9 +24,33 @@ ChartJS.register(
 );
 
 export default function Home() {
-  const { Population, options, data, genMembers } = useAppContext();
+  const {
+    Population,
+    options,
+    data,
+    genMembers,
+    targetString,
+    setTargetString,
+    populationSize,
+    setPopulationSize,
+    generationCount,
+    setGenerationCount,
+  } = useAppContext();
 
   const handleGenerate = (
+    e,
+    populationSize,
+    target,
+    mutationRate,
+    generations
+  ) => {
+    e.preventDefault();
+    if (populationSize > 100 || !target.length || generations > 500) return;
+    const population = new Population(populationSize, target, mutationRate);
+    population.evolve(generations);
+  };
+
+  const handleGenerateOnMount = (
     populationSize,
     target,
     mutationRate,
@@ -35,6 +59,10 @@ export default function Home() {
     const population = new Population(populationSize, target, mutationRate);
     population.evolve(generations);
   };
+
+  useEffect(() => {
+    handleGenerateOnMount(populationSize, targetString, 0.05, generationCount);
+  }, []);
 
   return (
     <div className="min-h-screen flex">
@@ -47,22 +75,61 @@ export default function Home() {
       {/* sidebar */}
       <div className="side-bar">
         <h3 className="font-semibold">Settings</h3>
-        <button
-          className="btn-primary"
-          onClick={() => handleGenerate(30, "xy", 0.05, 25)}
+        <form
+          className="space-y-6"
+          onSubmit={(e) =>
+            handleGenerate(
+              e,
+              Math.abs(populationSize),
+              targetString,
+              0.05,
+              Math.abs(generationCount)
+            )
+          }
         >
-          SUBMIT
-        </button>
+          <input
+            className="input-outline"
+            required
+            maxLength="5"
+            type="text"
+            value={targetString}
+            onChange={(e) => setTargetString(e.target.value)}
+          />
+          <input
+            className="input-outline"
+            required
+            type="number"
+            min="20"
+            max="100"
+            value={populationSize}
+            onChange={(e) => setPopulationSize(e.target.value)}
+          />
+          <input
+            className="input-outline"
+            required
+            type="number"
+            min="50"
+            max="500"
+            value={generationCount}
+            onChange={(e) => setGenerationCount(e.target.value)}
+          />
+          <button className="btn-primary" type="submit">
+            SUBMIT
+          </button>
+        </form>
       </div>
+      {/* main-container */}
       <div className="main-container">
         <h1 className="font-bold">Genetic Algorithm</h1>
-        <h2 className="font-medium">Fitness Chart</h2>
-        <div className="border">
+        <h2 className="font-medium">Fitness Value Chart</h2>
+        <div className="">
           <Line options={options} data={data} />
         </div>
-        {genMembers.map((members, i) => (
-          <div key={i}>{members}</div>
-        ))}
+        <div className="border">
+          {genMembers.map((members, i) => (
+            <div key={i}>{members}</div>
+          ))}
+        </div>
       </div>
     </div>
   );
