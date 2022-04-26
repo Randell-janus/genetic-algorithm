@@ -76,7 +76,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    handleGenerateOnMount(populationSize, targetString, 0.03, generationCount);
+    handleGenerateOnMount(
+      populationSize,
+      targetString,
+      mutationInputRate,
+      generationCount
+    );
   }, []);
 
   return (
@@ -89,84 +94,87 @@ export default function Home() {
 
       {/* SIDEBAR */}
       <div className="side-bar">
-        <h3 className="font-semibold">Parameters</h3>
-        <form
-          className="space-y-8"
-          onSubmit={(e) =>
-            handleGenerate(
-              e,
-              Math.abs(populationSize),
-              targetString,
-              mutationInputRate,
-              Math.abs(generationCount)
-            )
-          }
-        >
-          <div className="space-y-4">
-            <p className="font-semibold">
-              Target String <span className="font-normal">(letters only)</span>
-            </p>
-            <div className="relative">
+        <div className="space-y-8 fixed">
+          <h3 className="font-semibold">Parameters</h3>
+          <form
+            className="space-y-8"
+            onSubmit={(e) =>
+              handleGenerate(
+                e,
+                Math.abs(populationSize),
+                targetString,
+                mutationInputRate,
+                Math.abs(generationCount)
+              )
+            }
+          >
+            <div className="space-y-4">
+              <p className="font-semibold">
+                Target String{" "}
+                <span className="font-normal">(letters only)</span>
+              </p>
+              <div className="relative">
+                <input
+                  className="input-outline"
+                  required
+                  maxLength="4"
+                  type="text"
+                  value={targetString}
+                  onChange={handleTextChange}
+                />
+                <p className="absolute top-4 right-2 font-light text-slate-400">
+                  Limit: {count}/4
+                </p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <p className="font-semibold">
+                Population Size{" "}
+                <span className="font-normal">(min 20, max 100)</span>
+              </p>
               <input
                 className="input-outline"
                 required
-                maxLength="4"
-                type="text"
-                value={targetString}
-                onChange={handleTextChange}
+                type="number"
+                min="20"
+                max="100"
+                value={populationSize}
+                onChange={(e) => setPopulationSize(e.target.value)}
               />
-              <p className="absolute top-4 right-2 font-light text-slate-400">
-                Limit: {count}/4
-              </p>
             </div>
-          </div>
-          <div className="space-y-4">
-            <p className="font-semibold">
-              Population Size{" "}
-              <span className="font-normal">(min 20, max 100)</span>
-            </p>
-            <input
-              className="input-outline"
-              required
-              type="number"
-              min="20"
-              max="100"
-              value={populationSize}
-              onChange={(e) => setPopulationSize(e.target.value)}
-            />
-          </div>
-          <div className="space-y-4">
-            <p className="font-semibold">Mutation Rate</p>
-            <input
-              className="input-outline"
-              required
-              type="number"
-              min="0.01"
-              max="0.05"
-              step=".01"
-              value={mutationInputRate}
-              onChange={(e) => setMutationInputRate(e.target.value)}
-            />
-          </div>
-          <div className="space-y-4">
-            <p className="font-semibold">
-              Generation Count{" "}
-              <span className="font-normal">(min 50, max 300)</span>
-            </p>
-            <input
-              className="input-outline"
-              required
-              type="number"
-              min="50"
-              max="300"
-              value={generationCount}
-              onChange={(e) => setGenerationCount(e.target.value)}
-            />
-          </div>
-          <button className="btn-primary" type="submit">
-            Generate
-          </button>
-        </form>
+            <div className="space-y-4">
+              <p className="font-semibold">Mutation Rate</p>
+              <input
+                className="input-outline"
+                required
+                type="number"
+                min="0.01"
+                max="0.05"
+                step=".01"
+                value={mutationInputRate}
+                onChange={(e) => setMutationInputRate(e.target.value)}
+              />
+            </div>
+            <div className="space-y-4">
+              <p className="font-semibold">
+                Generation Count{" "}
+                <span className="font-normal">(min 50, max 300)</span>
+              </p>
+              <input
+                className="input-outline"
+                required
+                type="number"
+                min="50"
+                max="300"
+                value={generationCount}
+                onChange={(e) => setGenerationCount(e.target.value)}
+              />
+            </div>
+            <button className="btn-primary" type="submit">
+              Generate
+            </button>
+          </form>
+        </div>
       </div>
       {/* MAIN-CONTAINER */}
       <div className="main-container">
