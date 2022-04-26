@@ -26,8 +26,6 @@ ChartJS.register(
 );
 
 export default function Home() {
-  const [chartType, setChartType] = useState();
-
   const {
     Population,
     options,
@@ -40,7 +38,12 @@ export default function Home() {
     generationCount,
     setGenerationCount,
     correctValsCount,
+    mutationInputRate,
+    setMutationInputRate,
   } = useAppContext();
+
+  const [chartType, setChartType] = useState();
+  const [count, setCount] = useState(targetString.length);
 
   const handleGenerate = (
     e,
@@ -65,8 +68,15 @@ export default function Home() {
     population.evolve(generations);
   };
 
+  const handleTextChange = (e) => {
+    const target = e.target.value;
+    const countValue = e.target.value.length;
+    setTargetString(target.replace(/\s+/g, "").toLowerCase());
+    setCount(countValue);
+  };
+
   useEffect(() => {
-    handleGenerateOnMount(populationSize, targetString, 0.05, generationCount);
+    handleGenerateOnMount(populationSize, targetString, 0.03, generationCount);
   }, []);
 
   return (
@@ -77,87 +87,117 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* sidebar */}
+      {/* SIDEBAR */}
       <div className="side-bar">
-        <h3 className="font-semibold">Settings</h3>
+        <h3 className="font-semibold">Parameters</h3>
         <form
-          className="space-y-6"
+          className="space-y-8"
           onSubmit={(e) =>
             handleGenerate(
               e,
               Math.abs(populationSize),
               targetString,
-              0.05,
+              mutationInputRate,
               Math.abs(generationCount)
             )
           }
         >
-          <input
-            className="input-outline"
-            required
-            maxLength="4"
-            type="text"
-            value={targetString}
-            onChange={(e) => setTargetString(e.target.value)}
-          />
-          <input
-            className="input-outline"
-            required
-            type="number"
-            min="20"
-            max="100"
-            value={populationSize}
-            onChange={(e) => setPopulationSize(e.target.value)}
-          />
-          <input
-            className="input-outline"
-            required
-            type="number"
-            min="50"
-            max="300"
-            value={generationCount}
-            onChange={(e) => setGenerationCount(e.target.value)}
-          />
+          <div className="space-y-4">
+            <p className="font-semibold">
+              Target String <span className="font-normal">(letters only)</span>
+            </p>
+            <div className="relative">
+              <input
+                className="input-outline"
+                required
+                maxLength="4"
+                type="text"
+                value={targetString}
+                onChange={handleTextChange}
+              />
+              <p className="absolute top-4 right-2 font-light text-slate-400">
+                Limit: {count}/4
+              </p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <p className="font-semibold">
+              Population Size{" "}
+              <span className="font-normal">(min 20, max 100)</span>
+            </p>
+            <input
+              className="input-outline"
+              required
+              type="number"
+              min="20"
+              max="100"
+              value={populationSize}
+              onChange={(e) => setPopulationSize(e.target.value)}
+            />
+          </div>
+          <div className="space-y-4">
+            <p className="font-semibold">Mutation Rate</p>
+            <input
+              className="input-outline"
+              required
+              type="number"
+              min="0.01"
+              max="0.05"
+              step=".01"
+              value={mutationInputRate}
+              onChange={(e) => setMutationInputRate(e.target.value)}
+            />
+          </div>
+          <div className="space-y-4">
+            <p className="font-semibold">
+              Generation Count{" "}
+              <span className="font-normal">(min 50, max 300)</span>
+            </p>
+            <input
+              className="input-outline"
+              required
+              type="number"
+              min="50"
+              max="300"
+              value={generationCount}
+              onChange={(e) => setGenerationCount(e.target.value)}
+            />
+          </div>
           <button className="btn-primary" type="submit">
-            SUBMIT
+            Generate
           </button>
         </form>
       </div>
-      {/* main-container */}
+      {/* MAIN-CONTAINER */}
       <div className="main-container">
         <h1 className="font-bold">Genetic Algorithm</h1>
-        {/* <div className="overflow-auto h-80">
-          {genMembers.map((members, i) => (
-            <div className="flex space-x-4" key={i}>
-              <h3>Generation:{i + 1}</h3>
-              <p className="p-8 overflow-auto">{members.join("_")}</p>
-              <div>{correctValsCount[i]}</div>
-            </div>
-          ))} */}
-
-        <div className="overflow-auto h-96">
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th className="text-center">Generation</th>
-                <th className="px-4 md:px-16 text-center">Fitness</th>
-                <th className="text-left">Population</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {genMembers.map((members, i) => (
-                <tr key={i}>
-                  <td className="text-center p-4">{i + 1}</td>
-                  <td className="text-center">{correctValsCount[i]}</td>
-                  <td className="">{members.join("_")}</td>
+        {/* table */}
+        <div className="space-y-8">
+          <h2 className="font-semibold">Generations Table</h2>
+          <div className="overflow-auto h-96">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="text-center">Generation</th>
+                  <th className="px-4 md:px-16 text-center">Fitness</th>
+                  <th className="text-left">Population</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y">
+                {genMembers.map((members, i) => (
+                  <tr key={i}>
+                    <td className="text-center p-4">{i + 1}</td>
+                    <td className="text-center">{correctValsCount[i]}</td>
+                    <td className="">{members.join("_")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-        {/* </div> */}
-        <div className="">
-          <h2 className="font-medium">Fitness Value Chart</h2>
+        {/* chart */}
+        <div className="space-y-2">
+          <h2 className="font-semibold">Fitness Value Chart</h2>
           <div className="">
             {/* <Bar options={options} data={data} /> */}
             <Line options={options} data={data} />

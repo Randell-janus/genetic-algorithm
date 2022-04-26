@@ -9,9 +9,10 @@ export const AppContextProvider = ({ children }) => {
   const [chartDataY, setChartDataY] = useState([]);
   const [chartDataX, setChartDataX] = useState([]);
 
-  const [targetString, setTargetString] = useState("xy");
-  const [populationSize, setPopulationSize] = useState(30);
-  const [generationCount, setGenerationCount] = useState(100);
+  const [targetString, setTargetString] = useState("test");
+  const [populationSize, setPopulationSize] = useState(50);
+  const [mutationInputRate, setMutationInputRate] = useState(0.03);
+  const [generationCount, setGenerationCount] = useState(200);
 
   const [correctValsCount, setCorrectValsCount] = useState([]);
 
@@ -116,9 +117,9 @@ export const AppContextProvider = ({ children }) => {
       setChartDataY(resultsList);
       setChartDataX(resultsList.map((results, i) => i + 1));
 
-      console.log(resultsList);
+      // console.log(resultsList);
       // console.log(`this is last item: ${resultsList[resultsList.length - 1]}`);
-      console.log(resultsList.length);
+      // console.log(resultsList.length);
       // console.log(resultsList.map((results, i) => i + 1));
     }
 
@@ -191,6 +192,8 @@ export const AppContextProvider = ({ children }) => {
     setGenerationCount,
     chartDataY,
     correctValsCount,
+    mutationInputRate,
+    setMutationInputRate,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
