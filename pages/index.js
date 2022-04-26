@@ -6,11 +6,12 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import { useAppContext } from "../components/utils/context";
 
 ChartJS.register(
@@ -18,12 +19,15 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
 );
 
 export default function Home() {
+  const [chartType, setChartType] = useState();
+
   const {
     Population,
     options,
@@ -34,6 +38,7 @@ export default function Home() {
     populationSize,
     setPopulationSize,
     generationCount,
+    setGenerationCount,
     correctValsCount,
   } = useAppContext();
 
@@ -45,7 +50,7 @@ export default function Home() {
     generations
   ) => {
     e.preventDefault();
-    if (populationSize > 100 || !target.length || generations > 500) return;
+    if (populationSize > 100 || !target.length || generations > 300) return;
     const population = new Population(populationSize, target, mutationRate);
     population.evolve(generations);
   };
@@ -90,7 +95,7 @@ export default function Home() {
           <input
             className="input-outline"
             required
-            maxLength="5"
+            maxLength="4"
             type="text"
             value={targetString}
             onChange={(e) => setTargetString(e.target.value)}
@@ -109,7 +114,7 @@ export default function Home() {
             required
             type="number"
             min="50"
-            max="500"
+            max="300"
             value={generationCount}
             onChange={(e) => setGenerationCount(e.target.value)}
           />
@@ -121,17 +126,42 @@ export default function Home() {
       {/* main-container */}
       <div className="main-container">
         <h1 className="font-bold">Genetic Algorithm</h1>
-        <h2 className="font-medium">Fitness Value Chart</h2>
-        <div className="">
-          <Line options={options} data={data} />
+        {/* <div className="overflow-auto h-80">
+          {genMembers.map((members, i) => (
+            <div className="flex space-x-4" key={i}>
+              <h3>Generation:{i + 1}</h3>
+              <p className="p-8 overflow-auto">{members.join("_")}</p>
+              <div>{correctValsCount[i]}</div>
+            </div>
+          ))} */}
+
+        <div className="overflow-auto h-96">
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th className="text-center">Generation</th>
+                <th className="px-4 md:px-16 text-center">Fitness</th>
+                <th className="text-left">Population</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {genMembers.map((members, i) => (
+                <tr key={i}>
+                  <td className="text-center p-4">{i + 1}</td>
+                  <td className="text-center">{correctValsCount[i]}</td>
+                  <td className="">{members.join("_")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div className="border">
-          {genMembers.map((item, i) => (
-            <>
-              <div>{[item]}</div>
-              <div>{[correctValsCount[i]]}</div>
-            </>
-          ))}
+        {/* </div> */}
+        <div className="">
+          <h2 className="font-medium">Fitness Value Chart</h2>
+          <div className="">
+            {/* <Bar options={options} data={data} /> */}
+            <Line options={options} data={data} />
+          </div>
         </div>
       </div>
     </div>

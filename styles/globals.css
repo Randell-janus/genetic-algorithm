@@ -7,7 +7,7 @@
     @apply text-xs sm:text-sm;
     /* @apply font-mono; */
     @apply font-poppins;
-    @apply text-gray-700;
+    @apply text-slate-700;
   }
   h1 {
     @apply text-3xl sm:text-4xl;
@@ -16,28 +16,30 @@
     @apply text-xl sm:text-2xl;
   }
   h3 {
-    @apply text-lg sm:text-xl;
+    @apply text-base sm:text-xl;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-gray-200 rounded-md px-4 py-2 border border-gray-300;
+    @apply bg-slate-200 rounded-md px-4 py-2 border-0;
     @apply transition ease-out duration-200;
-    @apply hover:bg-gray-300 active:border-red-500 active:border-2;
+    @apply hover:bg-slate-300 active:border-rose-500 active:border-2;
   }
 
   .input-outline {
-    @apply border rounded w-full italic border-gray-200;
-    @apply focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-none;
+    @apply rounded w-full italic border-0;
+    @apply focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-none;
+    @apply transition-all ease-in-out;
   }
 }
 
 .main-container {
-  @apply py-32 flex-1 space-y-8 w-2 max-w-xl md:max-w-2xl xl:max-w-4xl mx-auto;
+  @apply py-32 flex-1 space-y-12 w-2;
   @apply px-4 sm:px-12 lg:px-16 xl:px-20;
+  /* @apply max-w-xl md:max-w-2xl xl:max-w-7xl mx-auto; */
 }
 
 .side-bar {
-  @apply bg-gray-100 w-80 px-6 py-24 space-y-6 hidden lg:block;
+  @apply bg-slate-100 w-80 px-6 py-24 space-y-6 hidden lg:block;
 }
