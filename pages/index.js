@@ -55,7 +55,7 @@ export default function Home() {
     generations
   ) => {
     e.preventDefault();
-    if (populationSize > 100 || !target.length || generations > 300) return;
+    if (populationSize > 200 || !target.length || generations > 300) return;
     setIsLoading(true);
     const population = new Population(populationSize, target, mutationRate);
     population.evolve(generations);
@@ -136,14 +136,14 @@ export default function Home() {
             <div className="space-y-4">
               <p className="font-semibold">
                 Population Size{" "}
-                <span className="font-normal">(min 20, max 100)</span>
+                <span className="font-normal">(min 20, max 200)</span>
               </p>
               <input
                 className="input-outline"
                 required
                 type="number"
                 min="20"
-                max="100"
+                max="200"
                 value={populationSize}
                 onChange={(e) => setPopulationSize(e.target.value)}
                 disabled={isLoading}
@@ -182,7 +182,11 @@ export default function Home() {
       </div>
       {/* MAIN-CONTAINER */}
       <div className="main-container">
-        <h1 className="font-bold">Genetic Algorithm</h1>
+        <div className="space-y-4">
+          <h1 className="font-bold">Genetic Algorithm</h1>
+          <p className="text-rose-500">Not yet mobile responsive</p>
+        </div>
+
         {/* table */}
         <div className="space-y-8">
           <h2 className="font-semibold">Evolutions Table</h2>

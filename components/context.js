@@ -10,9 +10,9 @@ export const AppContextProvider = ({ children }) => {
   const [chartDataX, setChartDataX] = useState([]);
 
   const [targetString, setTargetString] = useState("test");
-  const [populationSize, setPopulationSize] = useState(50);
-  const [mutationInputRate, setMutationInputRate] = useState(0.03);
-  const [generationCount, setGenerationCount] = useState(200);
+  const [populationSize, setPopulationSize] = useState(100);
+  const [mutationInputRate, setMutationInputRate] = useState(0.02);
+  const [generationCount, setGenerationCount] = useState(50);
 
   const [correctValsCount, setCorrectValsCount] = useState([]);
 
