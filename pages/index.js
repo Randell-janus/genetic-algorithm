@@ -1,4 +1,5 @@
 import Head from "next/head";
+import SliderInput from "../components/SliderInput";
 import { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
@@ -12,7 +13,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
-import { useAppContext } from "../components/utils/context";
+import { useAppContext } from "../components/context";
 
 ChartJS.register(
   CategoryScale,
@@ -40,9 +41,10 @@ export default function Home() {
     correctValsCount,
     mutationInputRate,
     setMutationInputRate,
+    isLoading,
+    setIsLoading,
   } = useAppContext();
 
-  const [chartType, setChartType] = useState();
   const [count, setCount] = useState(targetString.length);
 
   const handleGenerate = (
@@ -54,8 +56,10 @@ export default function Home() {
   ) => {
     e.preventDefault();
     if (populationSize > 100 || !target.length || generations > 300) return;
+    setIsLoading(true);
     const population = new Population(populationSize, target, mutationRate);
     population.evolve(generations);
+    setIsLoading(false);
   };
 
   const handleGenerateOnMount = (
@@ -66,6 +70,7 @@ export default function Home() {
   ) => {
     const population = new Population(populationSize, target, mutationRate);
     population.evolve(generations);
+    setIsLoading(false);
   };
 
   const handleTextChange = (e) => {
@@ -93,7 +98,7 @@ export default function Home() {
       </Head>
 
       {/* SIDEBAR */}
-      <div className="side-bar">
+      <div className="bg-slate-100 w-80 px-9 py-24 hidden lg:block">
         <div className="space-y-8 fixed">
           <h3 className="font-semibold">Parameters</h3>
           <form
@@ -121,6 +126,7 @@ export default function Home() {
                   type="text"
                   value={targetString}
                   onChange={handleTextChange}
+                  disabled={isLoading}
                 />
                 <p className="absolute top-4 right-2 font-light text-slate-400">
                   Limit: {count}/4
@@ -140,37 +146,35 @@ export default function Home() {
                 max="100"
                 value={populationSize}
                 onChange={(e) => setPopulationSize(e.target.value)}
+                disabled={isLoading}
               />
             </div>
             <div className="space-y-4">
               <p className="font-semibold">Mutation Rate</p>
-              <input
-                className="input-outline"
+              <select
+                className="select-box"
                 required
-                type="number"
-                min="0.01"
-                max="0.05"
-                step=".01"
                 value={mutationInputRate}
                 onChange={(e) => setMutationInputRate(e.target.value)}
-              />
+                disabled={isLoading}
+              >
+                <option value={0.01}>0.01</option>
+                <option value={0.02}>0.02</option>
+                <option value={0.03}>0.03</option>
+                <option value={0.04}>0.04</option>
+                <option value={0.05}>0.05</option>
+              </select>
             </div>
             <div className="space-y-4">
-              <p className="font-semibold">
-                Generation Count{" "}
-                <span className="font-normal">(min 50, max 300)</span>
-              </p>
-              <input
-                className="input-outline"
-                required
-                type="number"
-                min="50"
-                max="300"
+              <p className="font-semibold">Generation Count</p>
+              <SliderInput
                 value={generationCount}
+                min={50}
+                max={300}
                 onChange={(e) => setGenerationCount(e.target.value)}
               />
             </div>
-            <button className="btn-primary" type="submit">
+            <button className="btn-primary" type="submit" disabled={isLoading}>
               Generate
             </button>
           </form>
@@ -181,7 +185,7 @@ export default function Home() {
         <h1 className="font-bold">Genetic Algorithm</h1>
         {/* table */}
         <div className="space-y-8">
-          <h2 className="font-semibold">Generations Table</h2>
+          <h2 className="font-semibold">Evolutions Table</h2>
           <div className="overflow-auto h-96">
             <table className="w-full">
               <thead>

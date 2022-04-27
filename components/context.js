@@ -16,6 +16,8 @@ export const AppContextProvider = ({ children }) => {
 
   const [correctValsCount, setCorrectValsCount] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const random = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -194,6 +196,8 @@ export const AppContextProvider = ({ children }) => {
     correctValsCount,
     mutationInputRate,
     setMutationInputRate,
+    isLoading,
+    setIsLoading,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

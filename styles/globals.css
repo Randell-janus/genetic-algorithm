@@ -32,14 +32,22 @@
     @apply focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-none;
     @apply transition-all ease-in-out;
   }
+
+  .select-box {
+    @apply border-0 rounded focus:ring-0 cursor-pointer;
+    @apply transition duration-200 w-full;
+  }
 }
 
 .main-container {
-  @apply py-32 flex-1 space-y-16 w-2;
-  @apply px-4 sm:px-12 md:px-16 lg:px-16 xl:px-40;
-  @apply max-w-xl md:max-w-4xl xl:max-w-7xl mx-auto;
+  @apply py-32 flex-1 space-y-8 sm:space-y-16 w-2;
+  @apply px-6 sm:px-8 md:px-16 lg:px-16 xl:px-40;
+  @apply max-w-2xl md:max-w-4xl xl:max-w-7xl mx-auto;
 }
 
-.side-bar {
-  @apply bg-slate-100 w-80 px-6 py-24 hidden lg:block;
+.slider-thumb::-webkit-slider-thumb {
+  @apply appearance-none bg-rose-400 w-4 h-4 rounded-full cursor-pointer;
+}
+.slider-track {
+  @apply appearance-none h-2 w-full bg-slate-200 rounded-sm;
 }
