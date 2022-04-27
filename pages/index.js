@@ -14,6 +14,7 @@ import {
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import { useAppContext } from "../components/context";
+import FormLayout from "../components/FormLayout";
 
 ChartJS.register(
   CategoryScale,
@@ -113,11 +114,7 @@ export default function Home() {
               )
             }
           >
-            <div className="space-y-4">
-              <p className="font-semibold">
-                Target String{" "}
-                <span className="font-normal">(letters only)</span>
-              </p>
+            <FormLayout inputLabel="Target String" condition="(letters only)">
               <div className="relative">
                 <input
                   className="input-outline"
@@ -132,12 +129,11 @@ export default function Home() {
                   Limit: {count}/4
                 </p>
               </div>
-            </div>
-            <div className="space-y-4">
-              <p className="font-semibold">
-                Population Size{" "}
-                <span className="font-normal">(min 20, max 200)</span>
-              </p>
+            </FormLayout>
+            <FormLayout
+              inputLabel="Population Size"
+              condition="(min 20, max 200)"
+            >
               <input
                 className="input-outline"
                 required
@@ -148,9 +144,8 @@ export default function Home() {
                 onChange={(e) => setPopulationSize(e.target.value)}
                 disabled={isLoading}
               />
-            </div>
-            <div className="space-y-4">
-              <p className="font-semibold">Mutation Rate</p>
+            </FormLayout>
+            <FormLayout inputLabel="Mutation Rate">
               <select
                 className="select-box"
                 required
@@ -164,16 +159,18 @@ export default function Home() {
                 <option value={0.04}>0.04</option>
                 <option value={0.05}>0.05</option>
               </select>
-            </div>
-            <div className="space-y-4">
-              <p className="font-semibold">Generation Count</p>
+            </FormLayout>
+            <FormLayout
+              inputLabel="Generation Count"
+              condition={`: ${generationCount}`}
+            >
               <SliderInput
                 value={generationCount}
                 min={50}
                 max={300}
                 onChange={(e) => setGenerationCount(e.target.value)}
               />
-            </div>
+            </FormLayout>
             <button className="btn-primary" type="submit" disabled={isLoading}>
               Generate
             </button>

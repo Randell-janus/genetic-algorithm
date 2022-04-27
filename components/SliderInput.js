@@ -4,7 +4,6 @@ const SliderInput = ({ min, max, value, onChange }) => {
   const { generationCount } = useAppContext();
   return (
     <>
-      <div className="italic text-center font-medium">{generationCount}</div>
       <input
         type="range"
         min={min}
