@@ -1,5 +1,4 @@
 import Head from "next/head";
-import SliderInput from "../components/SliderInput";
 import { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
@@ -14,7 +13,11 @@ import {
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import { useAppContext } from "../components/context";
-import FormLayout from "../components/FormLayout";
+import {
+  FormLayout,
+  SliderInput,
+  RadioButton,
+} from "../components/FormComponents";
 
 ChartJS.register(
   CategoryScale,
@@ -47,6 +50,7 @@ export default function Home() {
   } = useAppContext();
 
   const [count, setCount] = useState(targetString.length);
+  const [chartType, setChartType] = useState("line");
 
   const handleGenerate = (
     e,
@@ -171,6 +175,16 @@ export default function Home() {
                 onChange={(e) => setGenerationCount(e.target.value)}
               />
             </FormLayout>
+            <FormLayout inputLabel="Chart Type">
+              <div
+                onChange={(e) => setChartType(e.target.value)}
+                className="space-x-8"
+              >
+                <RadioButton label="Line" value="line" chartType={chartType} />
+                <RadioButton label="Bar" value="bar" chartType={chartType} />
+              </div>
+            </FormLayout>
+
             <button className="btn-primary" type="submit" disabled={isLoading}>
               Generate
             </button>
@@ -211,9 +225,12 @@ export default function Home() {
         {/* chart */}
         <div className="space-y-2">
           <h2 className="font-semibold">Fitness Value Chart</h2>
-          <div className="">
-            {/* <Bar options={options} data={data} /> */}
-            <Line options={options} data={data} />
+          <div>
+            {chartType === "line" ? (
+              <Line options={options} data={data} />
+            ) : (
+              <Bar options={options} data={data} />
+            )}
           </div>
         </div>
       </div>
