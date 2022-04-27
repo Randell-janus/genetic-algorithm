@@ -1,5 +1,3 @@
-import { useAppContext } from "./context";
-
 export const FormLayout = ({ children, inputLabel, condition }) => {
   return (
     <div className="space-y-4">
@@ -26,7 +24,6 @@ export const RadioButton = ({ value, label, chartType }) => {
   );
 };
 export const SliderInput = ({ min, max, value, onChange }) => {
-  const { generationCount } = useAppContext();
   return (
     <>
       <input
@@ -43,5 +40,46 @@ export const SliderInput = ({ min, max, value, onChange }) => {
         <p>{max}</p>
       </div>
     </>
+  );
+};
+
+export const InputBox = ({
+  type,
+  maxLength,
+  value,
+  onChange,
+  isLoading,
+  min,
+  max,
+}) => {
+  return (
+    <input
+      className="input-outline"
+      required
+      type={type}
+      maxLength={maxLength}
+      value={value}
+      onChange={onChange}
+      disabled={isLoading}
+      min={min}
+      max={max}
+    />
+  );
+};
+export const SelectBox = ({ value, onChange, isLoading }) => {
+  return (
+    <select
+      className="select-box"
+      required
+      value={value}
+      onChange={onChange}
+      disabled={isLoading}
+    >
+      <option value={0.01}>0.01</option>
+      <option value={0.02}>0.02</option>
+      <option value={0.03}>0.03</option>
+      <option value={0.04}>0.04</option>
+      <option value={0.05}>0.05</option>
+    </select>
   );
 };

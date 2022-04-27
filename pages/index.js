@@ -17,6 +17,8 @@ import {
   FormLayout,
   SliderInput,
   RadioButton,
+  InputBox,
+  SelectBox,
 } from "../components/FormComponents";
 
 ChartJS.register(
@@ -120,14 +122,12 @@ export default function Home() {
           >
             <FormLayout inputLabel="Target String" condition="(letters only)">
               <div className="relative">
-                <input
-                  className="input-outline"
-                  required
-                  maxLength="4"
+                <InputBox
                   type="text"
+                  maxLength="4"
                   value={targetString}
                   onChange={handleTextChange}
-                  disabled={isLoading}
+                  isLoading={isLoading}
                 />
                 <p className="absolute top-4 right-2 font-light text-slate-400">
                   Limit: {count}/4
@@ -138,31 +138,21 @@ export default function Home() {
               inputLabel="Population Size"
               condition="(min 20, max 200)"
             >
-              <input
-                className="input-outline"
-                required
+              <InputBox
                 type="number"
                 min="20"
                 max="200"
                 value={populationSize}
                 onChange={(e) => setPopulationSize(e.target.value)}
-                disabled={isLoading}
+                isLoading={isLoading}
               />
             </FormLayout>
             <FormLayout inputLabel="Mutation Rate">
-              <select
-                className="select-box"
-                required
+              <SelectBox
                 value={mutationInputRate}
                 onChange={(e) => setMutationInputRate(e.target.value)}
-                disabled={isLoading}
-              >
-                <option value={0.01}>0.01</option>
-                <option value={0.02}>0.02</option>
-                <option value={0.03}>0.03</option>
-                <option value={0.04}>0.04</option>
-                <option value={0.05}>0.05</option>
-              </select>
+                isLoading={isLoading}
+              />
             </FormLayout>
             <FormLayout
               inputLabel="Generation Count"
@@ -184,7 +174,6 @@ export default function Home() {
                 <RadioButton label="Bar" value="bar" chartType={chartType} />
               </div>
             </FormLayout>
-
             <button className="btn-primary" type="submit" disabled={isLoading}>
               Generate
             </button>
@@ -195,7 +184,7 @@ export default function Home() {
       <div className="main-container">
         <div className="space-y-4">
           <h1 className="font-bold">Genetic Algorithm</h1>
-          <p className="text-rose-500">Not yet mobile responsive</p>
+          <p className="text-rose-500">Not yet fully compatible with mobile</p>
         </div>
 
         {/* table */}
