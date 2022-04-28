@@ -22,14 +22,34 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-slate-300 rounded-md px-4 py-2 border-0;
+    @apply bg-slate-300 rounded-md px-4 py-2 border-2 border-slate-300;
     @apply transition ease-out duration-200;
-    @apply hover:bg-slate-200 active:border-rose-500 active:border-2;
+    @apply hover:bg-slate-200 hover:border-slate-200 active:border-rose-500 active:border-2;
+  }
+
+  .icon-btn {
+    @apply transition-all ease-in-out rounded-md p-2 border-2;
+    @apply focus:outline-none hover:text-rose-400 hover:border-rose-400;
+    @apply active:bg-rose-400;
+  }
+
+  .sidebar-close-btn {
+    @apply absolute top-2 right-2 lg:hidden;
+    @apply icon-btn;
+    @apply border-slate-100;
+    @apply active:text-slate-100;
+  }
+
+  .sidebar-open-btn {
+    @apply top-2 left-2 lg:hidden z-10;
+    @apply icon-btn;
+    @apply border-white text-slate-700;
+    @apply active:text-white;
   }
 
   .input-outline {
     @apply rounded w-full italic border-0;
-    @apply focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-none;
+    @apply focus:ring-2 focus:ring-rose-400 focus:border-none;
     @apply transition-all ease-in-out;
   }
 
