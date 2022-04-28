@@ -115,9 +115,9 @@ const TestPage = () => {
           stroke="currentColor"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
@@ -140,9 +140,9 @@ const TestPage = () => {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M15 19l-7-7 7-7"
             />
           </svg>
@@ -222,7 +222,10 @@ const TestPage = () => {
         </div>
       </nav>
       {/* MAIN-CONTAINER */}
-      <div className="main-container overflow-auto">
+      <div
+        className="main-container overflow-auto"
+        onClick={() => setNavIsOpen(false)}
+      >
         <div className="space-y-4">
           <h1 className="font-bold">Genetic Algorithm</h1>
         </div>
