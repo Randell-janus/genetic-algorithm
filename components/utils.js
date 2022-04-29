@@ -66,6 +66,7 @@ export const InputBox = ({
     />
   );
 };
+
 export const SelectBox = ({ value, onChange, isLoading }) => {
   return (
     <select
@@ -81,5 +82,20 @@ export const SelectBox = ({ value, onChange, isLoading }) => {
       <option value={0.04}>0.04</option>
       <option value={0.05}>0.05</option>
     </select>
+  );
+};
+
+export const ResultsLayout = ({ children, label, spanText, pText }) => {
+  return (
+    <div className="sm:flex items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0">
+      <div className="flex space-x-2">
+        {children}
+        <h3 className="font-semibold">{label}</h3>
+      </div>
+      <p>
+        <span className="font-semibold mr-1">{spanText}</span>
+        {pText}
+      </p>
+    </div>
   );
 };

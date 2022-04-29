@@ -41,7 +41,13 @@
   }
 
   .sidebar-open-btn {
-    @apply top-2 left-2 lg:hidden z-10;
+    @apply top-2 left-2;
+    @apply icon-btn;
+    @apply border-white text-slate-700;
+    @apply active:text-white;
+  }
+
+  .github-icon-btn {
     @apply icon-btn;
     @apply border-white text-slate-700;
     @apply active:text-white;
@@ -60,7 +66,7 @@
 }
 
 .main-container {
-  @apply py-32 flex-grow space-y-8 sm:space-y-16;
+  @apply py-32 flex-grow space-y-12 sm:space-y-16;
   @apply px-6 sm:px-8 md:px-16 xl:px-28;
   @apply max-w-2xl md:max-w-4xl xl:max-w-7xl mx-auto;
 }
