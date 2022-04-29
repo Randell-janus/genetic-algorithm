@@ -84,9 +84,9 @@ const TestPage = () => {
   };
 
   const handleTextChange = (e) => {
-    const target = e.target.value;
-    const countValue = e.target.value.length;
-    setTargetString(target.replace(/\s+/g, "").toLowerCase());
+    const target = e.target.value.replace(/\s+/g, "");
+    const countValue = target.length;
+    setTargetString(target.toLowerCase());
     setCount(countValue);
   };
 
