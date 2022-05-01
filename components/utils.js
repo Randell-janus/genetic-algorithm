@@ -48,7 +48,6 @@ export const InputBox = ({
   maxLength,
   value,
   onChange,
-  isLoading,
   min,
   max,
 }) => {
@@ -60,21 +59,19 @@ export const InputBox = ({
       maxLength={maxLength}
       value={value}
       onChange={onChange}
-      disabled={isLoading}
       min={min}
       max={max}
     />
   );
 };
 
-export const SelectBox = ({ value, onChange, isLoading }) => {
+export const SelectBox = ({ value, onChange }) => {
   return (
     <select
       className="select-box"
       required
       value={value}
       onChange={onChange}
-      disabled={isLoading}
     >
       <option value={0.01}>0.01</option>
       <option value={0.02}>0.02</option>

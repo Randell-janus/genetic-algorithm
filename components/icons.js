@@ -73,7 +73,7 @@ export const ThumbsUp = ({ className }) => {
   );
 };
 
-export const GithubLink = ({className}) => {
+export const GithubLink = ({ className }) => {
   return (
     <Link href="https://github.com/Randell-janus/genetic-algorithm">
       <a className={`github-icon-btn ${className}`}>

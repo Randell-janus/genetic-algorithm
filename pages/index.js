@@ -54,10 +54,8 @@ const TestPage = () => {
     generationCount,
     setGenerationCount,
     correctValsCount,
-    mutationInputRate,
-    setMutationInputRate,
-    isLoading,
-    setIsLoading,
+    mutationRate,
+    setMutationRate,
     chartDataY,
   } = useAppContext();
 
@@ -67,30 +65,64 @@ const TestPage = () => {
   const [resultsGen, setResultsGen] = useState(generationCount);
 
   const handleGenerate = (
-    e,
     populationSize,
-    target,
+    targetString,
     mutationRate,
-    generations
+    generationCount
   ) => {
-    e.preventDefault();
-    if (populationSize > 200 || !target.length || generations > 300) return;
-    setIsLoading(true);
-    const population = new Population(populationSize, target, mutationRate);
-    population.evolve(generations);
-    setResultsGen(generations);
-    setIsLoading(false);
+    const population = new Population(
+      populationSize,
+      targetString,
+      mutationRate
+    );
+    // if (!targetString) return;
+    population.evolve(generationCount);
+    setResultsGen(generationCount);
   };
 
   const handleGenerateOnMount = (
     populationSize,
-    target,
+    targetString,
     mutationRate,
-    generations
+    generationCount
   ) => {
-    const population = new Population(populationSize, target, mutationRate);
-    population.evolve(generations);
-    setIsLoading(false);
+    const population = new Population(
+      populationSize,
+      targetString,
+      mutationRate
+    );
+    population.evolve(generationCount);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const data = {
+      targetString,
+      populationSize,
+      generationCount,
+    };
+    const JSONdata = JSON.stringify(data);
+    const endpoint = "/api/form";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSONdata,
+    };
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+
+    // console.log(`${response.status}`);
+    // console.log(result.targetString);
+
+    handleGenerate(
+      result.populationSize,
+      result.targetString,
+      mutationRate,
+      result.generationCount
+    );
   };
 
   const handleTextChange = (e) => {
@@ -104,7 +136,7 @@ const TestPage = () => {
     handleGenerateOnMount(
       populationSize,
       targetString,
-      mutationInputRate,
+      mutationRate,
       generationCount
     );
   }, []);
@@ -146,18 +178,7 @@ const TestPage = () => {
         <GithubLink className="absolute bottom-2 right-2 hidden lg:block border-slate-100" />
         <div className="space-y-8 w-full px-4 sm:px-6">
           <h3 className="font-semibold">Settings</h3>
-          <form
-            className="space-y-8"
-            onSubmit={(e) =>
-              handleGenerate(
-                e,
-                Math.abs(populationSize),
-                targetString,
-                mutationInputRate,
-                Math.abs(generationCount)
-              )
-            }
-          >
+          <form className="space-y-8" onSubmit={handleSubmit}>
             <FormLayout inputLabel="Target String" condition="(letters only)">
               <div className="relative">
                 <InputBox
@@ -165,7 +186,6 @@ const TestPage = () => {
                   maxLength="4"
                   value={targetString}
                   onChange={handleTextChange}
-                  isLoading={isLoading}
                 />
                 <p className="absolute top-4 right-2 font-light text-slate-400">
                   Limit: {count}/4
@@ -182,14 +202,12 @@ const TestPage = () => {
                 max="200"
                 value={populationSize}
                 onChange={(e) => setPopulationSize(e.target.value)}
-                isLoading={isLoading}
               />
             </FormLayout>
             <FormLayout inputLabel="Mutation Rate">
               <SelectBox
-                value={mutationInputRate}
-                onChange={(e) => setMutationInputRate(e.target.value)}
-                isLoading={isLoading}
+                value={mutationRate}
+                onChange={(e) => setMutationRate(e.target.value)}
               />
             </FormLayout>
             <FormLayout
@@ -212,7 +230,7 @@ const TestPage = () => {
                 <RadioButton label="Bar" value="bar" chartType={chartType} />
               </div>
             </FormLayout>
-            <button className="btn-primary" type="submit" disabled={isLoading}>
+            <button className="btn-primary" type="submit">
               Generate
             </button>
           </form>
