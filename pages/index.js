@@ -275,15 +275,16 @@ const TestPage = () => {
           <div className="bg-slate-100 rounded font-mono leading-8 p-8 overflow-auto">
             Summary = &#123;
             <br />
-            &nbsp;&nbsp;configuration = &#123;
+            &nbsp;&nbsp;configuration: &#123;
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;totalGenerations: {resultsGenerationCount},
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;targetString: "{resultsTargetString}",
+            &nbsp;&nbsp;&nbsp;&nbsp;targetString: &quot;{resultsTargetString}
+            &quot;,
             <br />
             &nbsp;&nbsp;&#125;,
             <br />
-            &nbsp;&nbsp;results = &#123;
+            &nbsp;&nbsp;results: &#123;
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;matchingStringsCount:{" "}
             {chartDataY[chartDataY.length - 1]},
