@@ -43,14 +43,7 @@ export const SliderInput = ({ min, max, value, onChange }) => {
   );
 };
 
-export const InputBox = ({
-  type,
-  maxLength,
-  value,
-  onChange,
-  min,
-  max,
-}) => {
+export const InputBox = ({ type, maxLength, value, onChange, min, max }) => {
   return (
     <input
       className="input-outline"
@@ -67,32 +60,12 @@ export const InputBox = ({
 
 export const SelectBox = ({ value, onChange }) => {
   return (
-    <select
-      className="select-box"
-      required
-      value={value}
-      onChange={onChange}
-    >
+    <select className="select-box" required value={value} onChange={onChange}>
       <option value={0.01}>0.01</option>
       <option value={0.02}>0.02</option>
       <option value={0.03}>0.03</option>
       <option value={0.04}>0.04</option>
       <option value={0.05}>0.05</option>
     </select>
-  );
-};
-
-export const ResultsLayout = ({ children, label, spanText, pText }) => {
-  return (
-    <div className="sm:flex items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0">
-      <div className="flex space-x-2">
-        {children}
-        <h3 className="font-semibold">{label}</h3>
-      </div>
-      <p>
-        <span className="font-semibold mr-1">{spanText}</span>
-        {pText}
-      </p>
-    </div>
   );
 };

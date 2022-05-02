@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
@@ -20,15 +19,8 @@ import {
   RadioButton,
   InputBox,
   SelectBox,
-  ResultsLayout,
 } from "../components/utils";
-import {
-  ChevronLeft,
-  Settings,
-  Trending,
-  ThumbsUp,
-  GithubLink,
-} from "../components/icons";
+import { ChevronLeft, Settings, GithubLink } from "../components/icons";
 
 ChartJS.register(
   CategoryScale,
@@ -62,7 +54,10 @@ const TestPage = () => {
   const [count, setCount] = useState(targetString.length);
   const [chartType, setChartType] = useState("line");
   const [navIsOpen, setNavIsOpen] = useState(false);
-  const [resultsGen, setResultsGen] = useState(generationCount);
+
+  const [resultsGenerationCount, setResultsGenerationCount] =
+    useState(generationCount);
+  const [resultsTargetString, setResultsTargetString] = useState(targetString);
 
   const handleGenerate = (
     populationSize,
@@ -77,7 +72,8 @@ const TestPage = () => {
     );
     // if (!targetString) return;
     population.evolve(generationCount);
-    setResultsGen(generationCount);
+    setResultsGenerationCount(generationCount);
+    setResultsTargetString(targetString);
   };
 
   const handleGenerateOnMount = (
@@ -102,8 +98,10 @@ const TestPage = () => {
       populationSize,
       generationCount,
     };
+
     const JSONdata = JSON.stringify(data);
     const endpoint = "/api/form";
+
     const options = {
       method: "POST",
       headers: {
@@ -111,7 +109,13 @@ const TestPage = () => {
       },
       body: JSONdata,
     };
+
     const response = await fetch(endpoint, options);
+
+    if (response.status !== 200) {
+      return;
+    }
+
     const result = await response.json();
 
     // console.log(`${response.status}`);
@@ -265,25 +269,51 @@ const TestPage = () => {
             </table>
           </div>
         </div>
-        {/* results section */}
+        {/* summary section */}
         <div className="space-y-6">
-          <h2 className="font-semibold">Results</h2>
-          <ResultsLayout
-            label={`${resultsGen} GENERATIONS:`}
-            spanText={`${chartDataY[chartDataY.length - 1]} members`}
-            pText="matched the target string"
-          >
-            <ThumbsUp className="h-5 w-5 sm:h-7 sm:w-7 text-blue-500" />
-          </ResultsLayout>
-          <ResultsLayout
-            label="HIGHEST:"
-            spanText={`${Math.max(...chartDataY)} members`}
-            pText={`matched at generation ${
-              chartDataY.indexOf(Math.max(...chartDataY)) + 1
-            }`}
-          >
-            <Trending className="h-5 w-5 sm:h-7 sm:w-7 text-green-600" />
-          </ResultsLayout>
+          <h2 className="font-semibold">Summary</h2>
+          <div className="bg-slate-100 rounded font-mono leading-8 p-8 overflow-auto">
+            Summary = &#123;
+            <br />
+            &nbsp;&nbsp;configuration = &#123;
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;totalGenerations: {resultsGenerationCount},
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;targetString: "{resultsTargetString}",
+            <br />
+            &nbsp;&nbsp;&#125;,
+            <br />
+            &nbsp;&nbsp;results = &#123;
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;matchingStringsCount:{" "}
+            {chartDataY[chartDataY.length - 1]},
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;bestRecorded: &#123;
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matchingStringsCount:{" "}
+            {Math.max(...chartDataY)}
+            ,
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atGeneration:{" "}
+            {chartDataY.indexOf(Math.max(...chartDataY)) + 1},<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&#125;,
+            <br />
+            &nbsp;&nbsp;&#125;,
+            <br />
+            &#125;
+            {/* <ResultsLayout
+              label={`${resultsGenerationCount} GENERATIONS:`}
+              spanText={`${chartDataY[chartDataY.length - 1]} members`}
+              pText="matched the target string"
+            ></ResultsLayout>
+            <ResultsLayout
+              label="HIGHEST:"
+              spanText={`${Math.max(...chartDataY)} members`}
+              pText={`matched at generation ${
+                chartDataY.indexOf(Math.max(...chartDataY)) + 1
+              }`}
+            ></ResultsLayout> */}
+          </div>
         </div>
         {/* chart */}
         <div className="space-y-4">
