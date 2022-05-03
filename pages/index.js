@@ -119,6 +119,7 @@ const TestPage = () => {
     };
     const response = await fetch(endpoint, options);
     if (response.status !== 200) {
+      setLoading(false);
       return;
     }
     const result = await response.json();

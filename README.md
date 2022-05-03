@@ -24,3 +24,7 @@ Set a target word/string and see how each member of the population evolve to imp
   - ![](https://github.com/Randell-janus/genetic-algorithm/blob/main/public/snapshots/summary-view.JPG)
 - Chart Section
   - ![](https://github.com/Randell-janus/genetic-algorithm/blob/main/public/snapshots/chart-view.JPG)
+- Mobile View
+  - ![](https://github.com/Randell-janus/genetic-algorithm/blob/main/public/snapshots/mobile-view.JPG)
+- Collapsible Sidebar
+  - ![](https://github.com/Randell-janus/genetic-algorithm/blob/main/public/snapshots/mobile-sidebar-view.JPG)
