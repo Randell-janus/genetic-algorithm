@@ -1,3 +1,5 @@
+import { useAppContext } from "./context";
+
 export const FormLayout = ({ children, inputLabel, condition }) => {
   return (
     <div className="space-y-4">
@@ -10,6 +12,8 @@ export const FormLayout = ({ children, inputLabel, condition }) => {
 };
 
 export const RadioButton = ({ value, label, chartType }) => {
+  const { loading } = useAppContext();
+
   return (
     <label className="cursor-pointer">
       <input
@@ -18,12 +22,15 @@ export const RadioButton = ({ value, label, chartType }) => {
         value={value}
         name="chart"
         defaultChecked={chartType === value}
+        disabled={loading}
       />
       {label}
     </label>
   );
 };
 export const SliderInput = ({ min, max, value, onChange }) => {
+  const { loading } = useAppContext();
+
   return (
     <>
       <input
@@ -34,6 +41,7 @@ export const SliderInput = ({ min, max, value, onChange }) => {
         step={10}
         className="slider-thumb slider-track"
         onChange={onChange}
+        disabled={loading}
       />
       <div className="flex justify-between text-xs md:text-sm italic">
         <p>{min}</p>
@@ -44,6 +52,8 @@ export const SliderInput = ({ min, max, value, onChange }) => {
 };
 
 export const InputBox = ({ type, maxLength, value, onChange, min, max }) => {
+  const { loading } = useAppContext();
+
   return (
     <input
       className="input-outline"
@@ -54,13 +64,22 @@ export const InputBox = ({ type, maxLength, value, onChange, min, max }) => {
       onChange={onChange}
       min={min}
       max={max}
+      disabled={loading}
     />
   );
 };
 
 export const SelectBox = ({ value, onChange }) => {
+  const { loading } = useAppContext();
+
   return (
-    <select className="select-box" required value={value} onChange={onChange}>
+    <select
+      className="select-box"
+      required
+      value={value}
+      onChange={onChange}
+      disabled={loading}
+    >
       <option value={0.01}>0.01</option>
       <option value={0.02}>0.02</option>
       <option value={0.03}>0.03</option>

@@ -49,6 +49,8 @@ const TestPage = () => {
     mutationRate,
     setMutationRate,
     chartDataY,
+    loading,
+    setLoading,
   } = useAppContext();
 
   const [count, setCount] = useState(targetString.length);
@@ -58,6 +60,9 @@ const TestPage = () => {
   const [resultsGenerationCount, setResultsGenerationCount] =
     useState(generationCount);
   const [resultsTargetString, setResultsTargetString] = useState(targetString);
+  const [resultsPopulationSize, setResultsPopulationSize] =
+    useState(populationSize);
+  const [resultsMutationRate, setResultsMutationRate] = useState(mutationRate);
 
   const handleGenerate = (
     populationSize,
@@ -74,6 +79,9 @@ const TestPage = () => {
     population.evolve(generationCount);
     setResultsGenerationCount(generationCount);
     setResultsTargetString(targetString);
+    setResultsPopulationSize(populationSize);
+    setResultsMutationRate(mutationRate);
+    setLoading(false);
   };
 
   const handleGenerateOnMount = (
@@ -88,20 +96,20 @@ const TestPage = () => {
       mutationRate
     );
     population.evolve(generationCount);
+    setLoading(false);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     const data = {
       targetString,
       populationSize,
       generationCount,
     };
-
     const JSONdata = JSON.stringify(data);
     const endpoint = "/api/form";
-
     const options = {
       method: "POST",
       headers: {
@@ -109,18 +117,13 @@ const TestPage = () => {
       },
       body: JSONdata,
     };
-
     const response = await fetch(endpoint, options);
-
     if (response.status !== 200) {
       return;
     }
-
     const result = await response.json();
-
     // console.log(`${response.status}`);
     // console.log(result.targetString);
-
     handleGenerate(
       result.populationSize,
       result.targetString,
@@ -187,12 +190,12 @@ const TestPage = () => {
               <div className="relative">
                 <InputBox
                   type="text"
-                  maxLength="4"
+                  maxLength="10"
                   value={targetString}
                   onChange={handleTextChange}
                 />
                 <p className="absolute top-4 right-2 font-light text-slate-400">
-                  Limit: {count}/4
+                  Limit: {count}/10
                 </p>
               </div>
             </FormLayout>
@@ -234,8 +237,8 @@ const TestPage = () => {
                 <RadioButton label="Bar" value="bar" chartType={chartType} />
               </div>
             </FormLayout>
-            <button className="btn-primary" type="submit">
-              Generate
+            <button className="btn-primary" type="submit" disabled={loading}>
+              {loading ? "Generating" : "Generate"}
             </button>
           </form>
         </div>
@@ -245,7 +248,7 @@ const TestPage = () => {
         <div className="space-y-4">
           <h1 className="font-bold">Genetic Algorithm</h1>
         </div>
-        {/* table */}
+        {/* TABLE SECTION */}
         <div className="space-y-6">
           <h2 className="font-semibold">Evolutions Table</h2>
           <div className="overflow-auto h-96">
@@ -269,7 +272,7 @@ const TestPage = () => {
             </table>
           </div>
         </div>
-        {/* summary section */}
+        {/* SUMMARY SECTION */}
         <div className="space-y-6">
           <h2 className="font-semibold">Summary</h2>
           <div className="bg-slate-100 rounded font-mono leading-8 p-8 overflow-auto">
@@ -277,10 +280,14 @@ const TestPage = () => {
             <br />
             &nbsp;&nbsp;configuration: &#123;
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;totalGenerations: {resultsGenerationCount},
-            <br />
             &nbsp;&nbsp;&nbsp;&nbsp;targetString: &quot;{resultsTargetString}
             &quot;,
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;populationSize: {resultsPopulationSize},
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;mutationRate: {resultsMutationRate},
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;totalGenerations: {resultsGenerationCount},
             <br />
             &nbsp;&nbsp;&#125;,
             <br />
@@ -302,21 +309,9 @@ const TestPage = () => {
             &nbsp;&nbsp;&#125;,
             <br />
             &#125;
-            {/* <ResultsLayout
-              label={`${resultsGenerationCount} GENERATIONS:`}
-              spanText={`${chartDataY[chartDataY.length - 1]} members`}
-              pText="matched the target string"
-            ></ResultsLayout>
-            <ResultsLayout
-              label="HIGHEST:"
-              spanText={`${Math.max(...chartDataY)} members`}
-              pText={`matched at generation ${
-                chartDataY.indexOf(Math.max(...chartDataY)) + 1
-              }`}
-            ></ResultsLayout> */}
           </div>
         </div>
-        {/* chart */}
+        {/* CHART SECTION */}
         <div className="space-y-4">
           <h2 className="font-semibold">Fitness Value Chart</h2>
           <div>

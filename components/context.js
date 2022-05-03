@@ -9,12 +9,14 @@ export const AppContextProvider = ({ children }) => {
   const [chartDataY, setChartDataY] = useState([]);
   const [chartDataX, setChartDataX] = useState([]);
 
-  const [targetString, setTargetString] = useState("xyz");
-  const [populationSize, setPopulationSize] = useState(100);
+  const [targetString, setTargetString] = useState("xxyyzz");
+  const [populationSize, setPopulationSize] = useState(150);
   const [mutationRate, setMutationRate] = useState(0.02);
-  const [generationCount, setGenerationCount] = useState(50);
+  const [generationCount, setGenerationCount] = useState(100);
 
   const [correctValsCount, setCorrectValsCount] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   const random = (min, max) => {
     min = Math.ceil(min);
@@ -194,6 +196,8 @@ export const AppContextProvider = ({ children }) => {
     correctValsCount,
     mutationRate,
     setMutationRate,
+    loading,
+    setLoading,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

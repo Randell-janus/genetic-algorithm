@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   if (
     targetString.length > 0 &&
-    targetString.length <= 4 &&
+    targetString.length <= 10 &&
     populationSize <= 200 &&
     populationSize >= 20 &&
     generationCount >= 50 &&
