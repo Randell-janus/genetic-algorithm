@@ -11,7 +11,7 @@ export const AppContextProvider = ({ children }) => {
 
   const [targetString, setTargetString] = useState("xxyyzz");
   const [populationSize, setPopulationSize] = useState(150);
-  const [mutationRate, setMutationRate] = useState(0.02);
+  const [mutationRate, setMutationRate] = useState(0.01);
   const [generationCount, setGenerationCount] = useState(100);
 
   const [correctValsCount, setCorrectValsCount] = useState([]);

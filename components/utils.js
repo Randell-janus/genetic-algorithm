@@ -80,6 +80,7 @@ export const SelectBox = ({ value, onChange }) => {
       onChange={onChange}
       disabled={loading}
     >
+      <option value={0}>0</option>
       <option value={0.01}>0.01</option>
       <option value={0.02}>0.02</option>
       <option value={0.03}>0.03</option>
