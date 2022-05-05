@@ -254,7 +254,7 @@ const Home = () => {
                   <th className="text-left">Population</th>
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y dark:divide-slate-700">
                 {genMembers.map((members, i) => (
                   <tr key={i}>
                     <td className="text-center p-4">{i + 1}</td>

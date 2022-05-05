@@ -1,4 +1,5 @@
 import React, { useContext, useState, createContext } from "react";
+import useDarkMode from "./useDarkMode";
 
 const AppContext = createContext();
 
@@ -18,6 +19,8 @@ export const AppContextProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(true);
   const [navIsOpen, setNavIsOpen] = useState(false);
+
+  const [setTheme, colorTheme] = useDarkMode();
 
   const random = (min, max) => {
     min = Math.ceil(min);
