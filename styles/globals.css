@@ -25,7 +25,7 @@
     @apply transition ease-out duration-200;
     @apply hover:bg-slate-200 dark:hover:bg-slate-700 hover:border-slate-200 dark:hover:border-slate-800 active:border-rose-500 active:border-2;
     @apply disabled:bg-slate-200 disabled:text-slate-400 disabled:border-slate-200;
-    @apply dark:disabled:bg-slate-700 dark:disabled:text-slate-700 dark:disabled:border-slate-700 dark:active:border-rose-500;
+    @apply dark:disabled:bg-slate-700 dark:disabled:text-slate-400 dark:disabled:border-slate-700 dark:active:border-rose-500;
   }
 
   .icon-btn {
