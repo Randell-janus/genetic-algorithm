@@ -1,4 +1,32 @@
 import { useAppContext } from "./context";
+import { Settings, GithubLink } from "./icons";
+
+export const Overlay = () => {
+  const { navIsOpen, setNavIsOpen } = useAppContext();
+  return (
+    <>
+      {navIsOpen && (
+        <div
+          onClick={() => setNavIsOpen(false)}
+          className="fixed z-10 inset-0 w-full h-full bg-slate-900 dark:bg-slate-600 opacity-30 lg:hidden"
+        ></div>
+      )}
+    </>
+  );
+};
+
+export const MobileNavbar = () => {
+  const { setNavIsOpen } = useAppContext();
+
+  return (
+    <div className="fixed bg-white dark:bg-slate-800 lg:bg-transparent p-2 w-full flex items-center justify-between lg:hidden">
+      <button onClick={() => setNavIsOpen(true)} className="sidebar-open-btn">
+        <Settings className="h-5 w-5 sm:h-7 sm:w-7" />
+      </button>
+      <GithubLink className="dark:border-slate-800 dark:active:text-slate-800" />
+    </div>
+  );
+};
 
 export const FormLayout = ({ children, inputLabel, condition }) => {
   return (
@@ -18,7 +46,7 @@ export const RadioButton = ({ value, label, chartType }) => {
     <label className="cursor-pointer">
       <input
         type="radio"
-        className="mr-2 cursor-pointer text-rose-400 focus:ring-0"
+        className="mr-2 cursor-pointer text-rose-400 dark:bg-slate-600 focus:ring-0"
         value={value}
         name="chart"
         defaultChecked={chartType === value}
@@ -28,7 +56,8 @@ export const RadioButton = ({ value, label, chartType }) => {
     </label>
   );
 };
-export const SliderInput = ({ min, max, value, onChange }) => {
+
+export const SliderInput = ({ min, max, value, onChange, step }) => {
   const { loading } = useAppContext();
 
   return (
@@ -38,7 +67,7 @@ export const SliderInput = ({ min, max, value, onChange }) => {
         min={min}
         max={max}
         value={value}
-        step={10}
+        step={step}
         className="slider-thumb slider-track"
         onChange={onChange}
         disabled={loading}

@@ -9,7 +9,7 @@ export const AppContextProvider = ({ children }) => {
   const [chartDataY, setChartDataY] = useState([]);
   const [chartDataX, setChartDataX] = useState([]);
 
-  const [targetString, setTargetString] = useState("xxyyzz");
+  const [targetString, setTargetString] = useState("lasalle");
   const [populationSize, setPopulationSize] = useState(150);
   const [mutationRate, setMutationRate] = useState(0.01);
   const [generationCount, setGenerationCount] = useState(100);
@@ -17,6 +17,7 @@ export const AppContextProvider = ({ children }) => {
   const [correctValsCount, setCorrectValsCount] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const [navIsOpen, setNavIsOpen] = useState(false);
 
   const random = (min, max) => {
     min = Math.ceil(min);
@@ -48,7 +49,6 @@ export const AppContextProvider = ({ children }) => {
           matches += 1;
         }
       }
-
       return matches / this.target.length;
     }
 
@@ -173,7 +173,7 @@ export const AppContextProvider = ({ children }) => {
     labels,
     datasets: [
       {
-        label: "Fitness Value",
+        label: "Number of Matches",
         data: chartDataY,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -198,6 +198,8 @@ export const AppContextProvider = ({ children }) => {
     setMutationRate,
     loading,
     setLoading,
+    navIsOpen,
+    setNavIsOpen,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
