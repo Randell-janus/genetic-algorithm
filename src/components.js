@@ -1,5 +1,5 @@
 import { useAppContext } from "./context";
-import { Settings, GithubLink } from "./icons";
+import { GithubLink, Settings } from "./icons";
 
 export const Overlay = () => {
   const { navIsOpen, setNavIsOpen } = useAppContext();
@@ -21,10 +21,23 @@ export const MobileNavbar = () => {
   return (
     <div className="fixed bg-white dark:bg-slate-800 lg:bg-transparent p-2 w-full flex items-center justify-between lg:hidden">
       <button onClick={() => setNavIsOpen(true)} className="sidebar-open-btn">
-        <Settings className="h-5 w-5 sm:h-7 sm:w-7" />
+        <Settings className="h-5 w-5 sm:h-7 sm:w-7 hidden sm:block" />
       </button>
       <GithubLink className="dark:border-slate-800 dark:active:text-slate-800" />
     </div>
+  );
+};
+
+export const MobileNavbarToggler = () => {
+  const { setNavIsOpen } = useAppContext();
+
+  return (
+    <button
+      onClick={() => setNavIsOpen(true)}
+      className="fixed bg-rose-400 sm:hidden bottom-6 right-6 rounded-full p-4 hover:scale-105 active:scale-110 transition-all shadow-xl active:bg-rose-300"
+    >
+      <Settings className="h-8 w-8 text-slate-100 dark:text-slate-700" />
+    </button>
   );
 };
 

@@ -21,9 +21,9 @@ import {
   SelectBox,
   Overlay,
   MobileNavbar,
+  MobileNavbarToggler,
 } from "../src/components";
 import { GithubLink, ThemeSwitcher, SidebarCloseBtn } from "../src/icons";
-import useDarkMode from "../src/useDarkMode";
 
 ChartJS.register(
   CategoryScale,
@@ -78,7 +78,6 @@ const Home = () => {
       targetString,
       mutationRate
     );
-    // if (!targetString) return;
     population.evolve(generationCount);
     setResultsGenerationCount(generationCount);
     setResultsTargetString(targetString);
@@ -161,6 +160,7 @@ const Home = () => {
 
       <Overlay />
       <MobileNavbar />
+      <MobileNavbarToggler />
 
       {/* SIDEBAR */}
       <nav

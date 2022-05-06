@@ -94,7 +94,7 @@
   }
   .overflow-thumb::-webkit-scrollbar-thumb {
     @apply bg-slate-300 hover:bg-slate-400;
-    @apply dark:bg-slate-900 dark:hover:bg-slate-500;
+    @apply dark:bg-slate-500 dark:hover:bg-slate-900;
   }
   .overflow-track::-webkit-scrollbar-track {
     @apply bg-slate-100;
@@ -115,7 +115,7 @@
   }
   body::-webkit-scrollbar-thumb {
     @apply bg-slate-300 hover:bg-slate-400;
-    @apply dark:bg-slate-900 dark:hover:bg-slate-500;
+    @apply dark:bg-slate-500 dark:hover:bg-slate-900;
   }
   body::-webkit-scrollbar-track {
     @apply bg-slate-100;
