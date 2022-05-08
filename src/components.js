@@ -34,7 +34,7 @@ export const MobileNavbarToggler = () => {
   return (
     <button
       onClick={() => setNavIsOpen(true)}
-      className="fixed bg-rose-400 sm:hidden bottom-16 right-16 rounded-full p-4 hover:scale-105 active:scale-110 transition-all shadow-xl active:bg-rose-300"
+      className="fixed bg-rose-400 sm:hidden bottom-16 right-10 rounded-full p-4 hover:scale-105 active:scale-110 transition-all shadow-xl active:bg-rose-300"
     >
       <Settings className="h-10 w-10 text-slate-100 dark:text-slate-700" />
     </button>
