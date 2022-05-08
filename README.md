@@ -34,4 +34,4 @@ The **genetic algorithm** is a type of optimization method that is inspired by C
 - Chart Section
   - ![](https://github.com/Randell-janus/genetic-algorithm/blob/main/public/snapshots/chart-view.JPG)
 - Mobile View
-  - ![](https://github.com/Randell-janus/genetic-algorithm/blob/main/public/snapshots/mobile-sidebar-view.JPG)
+  - ![](https://github.com/Randell-janus/genetic-algorithm/blob/main/public/snapshots/mobile-view.JPG)
