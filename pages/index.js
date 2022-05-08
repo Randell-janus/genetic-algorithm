@@ -67,6 +67,8 @@ const Home = () => {
     useState(populationSize);
   const [resultsMutationRate, setResultsMutationRate] = useState(mutationRate);
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleGenerate = (
     populationSize,
     targetString,
@@ -83,6 +85,7 @@ const Home = () => {
     setResultsTargetString(targetString);
     setResultsPopulationSize(populationSize);
     setResultsMutationRate(mutationRate);
+    setErrorMessage("");
     setLoading(false);
   };
 
@@ -119,20 +122,26 @@ const Home = () => {
       },
       body: JSONdata,
     };
-    const response = await fetch(endpoint, options);
-    if (response.status !== 200) {
+    try {
+      const response = await fetch(endpoint, options);
+      // if (!response.ok) {
+      //   setLoading(false);
+      //   console.log("IF CHECK RAN")
+      //   return;
+      // }
+      const result = await response.json();
+
+      handleGenerate(
+        result.populationSize,
+        result.targetString,
+        mutationRate,
+        result.generationCount
+      );
+    } catch (err) {
+      setErrorMessage("Error: Invalid input");
       setLoading(false);
-      return;
+      // console.log("CATCH BLOCK RAN")
     }
-    const result = await response.json();
-    // console.log(`${response.status}`);
-    // console.log(result.targetString);
-    handleGenerate(
-      result.populationSize,
-      result.targetString,
-      mutationRate,
-      result.generationCount
-    );
   };
 
   const handleTextChange = (e) => {
@@ -227,6 +236,9 @@ const Home = () => {
                 <RadioButton label="Bar" value="bar" chartType={chartType} />
               </div>
             </FormLayout>
+            {errorMessage && (
+              <p className="text-rose-500 italic">{errorMessage}</p>
+            )}
             <button className="btn-primary" type="submit" disabled={loading}>
               {loading ? "Generating" : "Generate"}
             </button>
