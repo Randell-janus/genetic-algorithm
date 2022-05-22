@@ -248,7 +248,7 @@ const Home = () => {
       {/* MAIN-CONTAINER */}
       <div className="main-container overflow-auto">
         <div className="space-y-4">
-          <h1 className="font-bold text-slate-800">Genetic Algorithm</h1>
+          <h1 className="font-bold">Genetic Algorithm</h1>
           <p>
             Set a target string and see how each member of the population evolve
             to improve its fitness throughout generations.
