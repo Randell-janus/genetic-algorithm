@@ -1,5 +1,6 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import type { NextPage } from "next";
+import { useState, useEffect, ChangeEvent } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,6 +25,7 @@ import {
   MobileNavbarToggler,
 } from "../src/components";
 import { GithubLink, ThemeSwitcher, SidebarCloseBtn } from "../src/icons";
+import { Parameters } from "../src/interfaces";
 
 ChartJS.register(
   CategoryScale,
@@ -36,7 +38,7 @@ ChartJS.register(
   Legend
 );
 
-const Home = () => {
+const Home: NextPage = () => {
   const {
     Population,
     options,
@@ -57,24 +59,26 @@ const Home = () => {
     navIsOpen,
   } = useAppContext();
 
-  const [count, setCount] = useState(targetString.length);
-  const [chartType, setChartType] = useState("line");
+  const [count, setCount] = useState<number>(targetString.length);
+  const [chartType, setChartType] = useState<string>("line");
 
   const [resultsGenerationCount, setResultsGenerationCount] =
-    useState(generationCount);
-  const [resultsTargetString, setResultsTargetString] = useState(targetString);
+    useState<number>(generationCount);
+  const [resultsTargetString, setResultsTargetString] =
+    useState<string>(targetString);
   const [resultsPopulationSize, setResultsPopulationSize] =
-    useState(populationSize);
-  const [resultsMutationRate, setResultsMutationRate] = useState(mutationRate);
+    useState<number>(populationSize);
+  const [resultsMutationRate, setResultsMutationRate] =
+    useState<number>(mutationRate);
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>("");
 
   const handleGenerate = (
-    populationSize,
-    targetString,
-    mutationRate,
-    generationCount
-  ) => {
+    populationSize: number,
+    targetString: string,
+    mutationRate: number,
+    generationCount: number
+  ): void => {
     const population = new Population(
       populationSize,
       targetString,
@@ -90,11 +94,11 @@ const Home = () => {
   };
 
   const handleGenerateOnMount = (
-    populationSize,
-    targetString,
-    mutationRate,
-    generationCount
-  ) => {
+    populationSize: number,
+    targetString: string,
+    mutationRate: number,
+    generationCount: number
+  ): void => {
     const population = new Population(
       populationSize,
       targetString,
@@ -104,8 +108,10 @@ const Home = () => {
     setLoading(false);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
     setLoading(true);
 
     const data = {
@@ -144,7 +150,7 @@ const Home = () => {
     }
   };
 
-  const handleTextChange = (e) => {
+  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target.value.replace(/\s+/g, "");
     const countValue = target.length;
     setTargetString(target.toLowerCase());
@@ -188,7 +194,7 @@ const Home = () => {
               <div className="relative">
                 <InputBox
                   type="text"
-                  maxLength="10"
+                  maxLength={10}
                   value={targetString}
                   onChange={handleTextChange}
                 />
@@ -229,7 +235,9 @@ const Home = () => {
             </FormLayout>
             <FormLayout inputLabel="Chart Type">
               <div
-                onChange={(e) => setChartType(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setChartType(e.target.value)
+                }
                 className="space-x-8"
               >
                 <RadioButton label="Line" value="line" chartType={chartType} />

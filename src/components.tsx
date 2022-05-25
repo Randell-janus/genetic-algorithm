@@ -1,5 +1,12 @@
 import { useAppContext } from "./context";
 import { GithubLink, Settings } from "./icons";
+import {
+  InputBoxProps,
+  SelectBoxProps,
+  FormLayoutProps,
+  RadioButtonProps,
+  SliderInputProps,
+} from "./interfaces";
 
 export const Overlay = () => {
   const { navIsOpen, setNavIsOpen } = useAppContext();
@@ -41,7 +48,11 @@ export const MobileNavbarToggler = () => {
   );
 };
 
-export const FormLayout = ({ children, inputLabel, condition }) => {
+export const FormLayout = ({
+  children,
+  inputLabel,
+  condition,
+}: FormLayoutProps) => {
   return (
     <div className="space-y-4">
       <p className="font-semibold">
@@ -52,7 +63,7 @@ export const FormLayout = ({ children, inputLabel, condition }) => {
   );
 };
 
-export const RadioButton = ({ value, label, chartType }) => {
+export const RadioButton = ({ value, label, chartType }: RadioButtonProps) => {
   const { loading } = useAppContext();
 
   return (
@@ -70,7 +81,13 @@ export const RadioButton = ({ value, label, chartType }) => {
   );
 };
 
-export const SliderInput = ({ min, max, value, onChange, step }) => {
+export const SliderInput = ({
+  min,
+  max,
+  value,
+  onChange,
+  step,
+}: SliderInputProps) => {
   const { loading } = useAppContext();
 
   return (
@@ -93,7 +110,12 @@ export const SliderInput = ({ min, max, value, onChange, step }) => {
   );
 };
 
-export const InputBox = ({ type, maxLength, value, onChange, min, max }) => {
+export const InputBox = ({
+  type,
+  maxLength,
+  value,
+  onChange,
+}: InputBoxProps) => {
   const { loading } = useAppContext();
 
   return (
@@ -104,14 +126,12 @@ export const InputBox = ({ type, maxLength, value, onChange, min, max }) => {
       maxLength={maxLength}
       value={value}
       onChange={onChange}
-      min={min}
-      max={max}
       disabled={loading}
     />
   );
 };
 
-export const SelectBox = ({ value, onChange }) => {
+export const SelectBox = ({ value, onChange }: SelectBoxProps) => {
   const { loading } = useAppContext();
 
   return (

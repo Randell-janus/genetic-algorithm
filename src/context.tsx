@@ -1,41 +1,45 @@
 import React, { useContext, useState, createContext } from "react";
-import useDarkMode from "./useDarkMode";
 
-const AppContext = createContext();
+const AppContext = createContext(null);
 
 export const useAppContext = () => useContext(AppContext);
 
-export const AppContextProvider = ({ children }) => {
-  const [genMembers, setGenMembers] = useState([]);
-  const [chartDataY, setChartDataY] = useState([]);
-  const [chartDataX, setChartDataX] = useState([]);
+export const AppContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [genMembers, setGenMembers] = useState<string[] | []>([]);
+  const [chartDataY, setChartDataY] = useState<number[] | []>([]);
+  const [chartDataX, setChartDataX] = useState<number[] | []>([]);
 
-  const [targetString, setTargetString] = useState("lasalle");
-  const [populationSize, setPopulationSize] = useState(150);
-  const [mutationRate, setMutationRate] = useState(0.01);
-  const [generationCount, setGenerationCount] = useState(100);
+  const [targetString, setTargetString] = useState<string>("lasalle");
+  const [populationSize, setPopulationSize] = useState<number>(150);
+  const [mutationRate, setMutationRate] = useState<number>(0.01);
+  const [generationCount, setGenerationCount] = useState<number>(100);
 
-  const [correctValsCount, setCorrectValsCount] = useState([]);
+  const [correctValsCount, setCorrectValsCount] = useState<number[] | []>([]);
 
-  const [loading, setLoading] = useState(true);
-  const [navIsOpen, setNavIsOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [navIsOpen, setNavIsOpen] = useState<boolean>(false);
 
-  const [setTheme, colorTheme] = useDarkMode();
-
-  const random = (min, max) => {
+  const random = (min: number, max: number): number => {
     min = Math.ceil(min);
     max = Math.floor(max);
 
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
-  const generateLetter = () => {
+  const generateLetter = (): string => {
     const code = random(97, 123);
     return String.fromCharCode(code);
   };
 
   class Member {
-    constructor(target) {
+    public keys: string[] | [];
+    public target: string;
+
+    constructor(target: string) {
       this.target = target;
       this.keys = [];
 
@@ -81,7 +85,12 @@ export const AppContextProvider = ({ children }) => {
   }
 
   class Population {
-    constructor(size, target, mutationRate) {
+    public size: number;
+    public target: string;
+    public mutationRate: number;
+    public members: any;
+
+    constructor(size: number, target: string, mutationRate: number) {
       size = size || 1;
       this.members = [];
       this.mutationRate = mutationRate;
