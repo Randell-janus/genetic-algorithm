@@ -25,7 +25,6 @@ import {
   MobileNavbarToggler,
 } from "../src/components";
 import { GithubLink, ThemeSwitcher, SidebarCloseBtn } from "../src/icons";
-import { Parameters } from "../src/interfaces";
 
 ChartJS.register(
   CategoryScale,

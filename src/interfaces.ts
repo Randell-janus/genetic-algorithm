@@ -1,10 +1,3 @@
-export interface Parameters {
-  populationSize: number;
-  targetString: string;
-  mutationRate: number;
-  generationCount: number;
-}
-
 export interface InputBoxProps {
   type: string;
   maxLength: number;

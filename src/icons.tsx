@@ -26,7 +26,7 @@ export const SidebarCloseBtn = () => {
   );
 };
 
-export const Settings = ({ className }) => {
+export const Settings = ({ className }: { className: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ export const Settings = ({ className }) => {
   );
 };
 
-export const GithubLink = ({ className }) => {
+export const GithubLink = ({ className }: { className: string }) => {
   return (
     <Link href="https://github.com/Randell-janus/genetic-algorithm">
       <a className={`extras-icon-btn ${className}`}>
@@ -55,7 +55,7 @@ export const GithubLink = ({ className }) => {
   );
 };
 
-export const ThemeSwitcher = ({ className }) => {
+export const ThemeSwitcher = ({ className }: { className: string }) => {
   const [setTheme, colorTheme] = useDarkMode();
 
   return (
